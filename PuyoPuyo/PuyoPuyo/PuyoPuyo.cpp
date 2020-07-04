@@ -32,7 +32,7 @@ int field[FIELD_H][FIELD_W];	//フィールド情報
 int fieldcpy[FIELD_H][FIELD_W]; //フィールド情報コピー
 int check[FIELD_H][FIELD_W];	//チェック用フラグ
 
-//ぷよの種類（NONE,WALL,MINO_0,MINO_1,MINO_2,MINO_3）
+//ぷよの種類（NONE,WALL,PUYO_0,PUYO_1,PUYO_2,PUYO_3）
 char minotype[][3] = { "・","■","〇","△","☆","◎" };
 
 int puyoX = START_X;	//ぷよの座標x
@@ -72,14 +72,14 @@ int main(){
 		if (t < time(NULL)) {
 			t = time(NULL);	//タイム更新（1秒ごとに更新）
 
-
 			//操作制限されていない場合
 			if (!user_stop) {
 
 				//地面までぷよ落下
-				if (ObjectJudge(puyoX, puyoY + 1, puyoRot) != true) {
+				if (!ObjectJudge(puyoX, puyoY + 1, puyoRot)) {
 					puyoY++;
 				}
+
 				else {
 
 					int subpuyoX = puyoX + puyoPosition[puyoRot][0];
@@ -138,7 +138,7 @@ int main(){
 
 		//キー入力
 		if (_kbhit()) {
-
+			
 			//操作制限されている場合
 			if (user_stop) {
 				_getch();
@@ -160,8 +160,9 @@ int main(){
 				case 'd':x++; break;	//右
 				case 'e':rot = (--rotnum) % ROT_MAX; break;	//右回転（時計回り）
 				case 'q':rot = (++rotnum) % ROT_MAX; break;	//左回転（反時計回り）
+				case 'f':end_key = 1; break;	//終了
 				}
-
+			
 				//オブジェクトじゃなければ座標更新
 				if (ObjectJudge(x, y, rot) != true) {
 					puyoX = x;
@@ -170,18 +171,12 @@ int main(){
 				}
 				Display();	//画面再描画
 			}
-
-			//ゲーム終了キー
-			switch (_getch()) {
-			case 'f':end_key = 1; break;	//終了
-			}
 		}
 
 		//無限ループ終了
 		if (end_key == 1) {
 			break;
 		}
-
 	}
 
 	return 0;
