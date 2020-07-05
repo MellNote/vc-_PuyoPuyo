@@ -25,6 +25,17 @@ extern int field[FIELD_H][FIELD_W];	//フィールド情報
 extern int fieldcpy[FIELD_H][FIELD_W]; //フィールド情報コピー
 extern int check[FIELD_H][FIELD_W];	//チェック用フラグ
 
+//終了キー
+extern int end_key;
+
+//構造体
+extern struct text {
+	char* version;
+	char* operation;
+};
+
+extern text Text;
+
 //ぷよの種類（NONE,WALL,MINO_0,MINO_1,MINO_2,MINO_3）
 extern char minotype[][3];
 
@@ -34,5 +45,7 @@ extern int puyoType;		//軸ぷよの種類
 extern int subpuyoType;	//サブぷよの種類
 extern int puyoRot;		//ぷよの回転
 extern int rotnum;	//回転時に用いる適当な大きな値
+extern int chainPuyo;	//消したぷよの数
+extern int Maxchain;
 
 extern bool user_stop;	//操作制限

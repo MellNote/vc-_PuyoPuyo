@@ -1,6 +1,7 @@
-﻿#include <stdio.h>
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "PuyoMotion.h"
+#include "Display.h"
+//#include "Setting.h"
 #include "PuyoVar.h"
 
 //オブジェクト判定関数
@@ -45,7 +46,10 @@ int PuyoCount(int x, int y, int type, int count) {
 
 //ぷよが4個以上で消える関数
 void PuyoErase(int x, int y, int  type) {
+	
+
 	if (field[y][x] != type) {
+		
 		return;
 	}
 

@@ -1,15 +1,17 @@
-﻿#include <stdio.h>
-#include <stdlib.h>
-#include "stdafx.h"
+﻿#include "stdafx.h"
+#include "PuyoMotion.h"
 #include "Display.h"
+#include "Setting.h"
 #include "PuyoVar.h"
+
+text Text;	//構造体宣言
 
 //画面再描画関数
 void Display() {
 
 	//画面クリア
 	system("cls");
-
+	
 	//フィールド情報コピー
 	memcpy(fieldcpy, field, sizeof field);
 
@@ -33,4 +35,34 @@ void Display() {
 		}
 		printf("\n");
 	}
+
+	int cnt = 0;
+	
+	for (int x = 0; x < FIELD_W; x++) {
+		if (field[1][x] != NONE) {
+			cnt++;
+		}
+	}
+	
+	if (cnt >=3) {
+		end_key = 1;
+	}
+	else {
+		cnt = 0;
+	}
+	printf("\n");
+	printf("%s%d\n", "現在チェイン数：",chainPuyo);
+	printf("\n");
+	printf("%s%d\n", "最大チェイン数：", Maxchain);
+
+	//操作方法描画
+	printf("\n");
+	printf("%s\n", "【操作方法】");
+	printf("%s\n", Text.operation);
+
+	//バージョン描画
+	printf("\n");
+	printf("%s\n", "【バージョン】");
+	printf("%s\n", Text.version);
+
 }

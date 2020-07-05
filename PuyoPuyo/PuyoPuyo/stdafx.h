@@ -4,9 +4,8 @@
 //
 
 #pragma once
-
+//#include "stdafx.h"
 #include "targetver.h"
-
 #include <stdio.h>
 #include <tchar.h>
 #include <conio.h>
@@ -15,11 +14,6 @@
 #include <string.h>
 #include <iostream>
 #include <Windows.h>
-#include "PuyoMotion.h"
-#include "Display.h"
-#include "Setting.h"
-#include "stdafx.h"
-#include "PuyoVar.h"
 
 
 

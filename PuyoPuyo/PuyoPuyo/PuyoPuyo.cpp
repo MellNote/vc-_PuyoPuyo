@@ -1,14 +1,7 @@
-﻿#include <stdio.h>
-#include <conio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <time.h>
-#include <iostream>
-#include <Windows.h>
+﻿#include "stdafx.h"
 #include "PuyoMotion.h"
 #include "Display.h"
 #include "Setting.h"
-#include "stdafx.h"
 #include "PuyoVar.h"
 
 #define FIELD_W 8	//フィールドの横幅
@@ -33,6 +26,7 @@ int fieldcpy[FIELD_H][FIELD_W]; //フィールド情報コピー
 int check[FIELD_H][FIELD_W];	//チェック用フラグ
 
 //ぷよの種類（NONE,WALL,PUYO_0,PUYO_1,PUYO_2,PUYO_3）
+//【補足】全角文字は2バイト+1バイト(null)=3バイトで表される。
 char minotype[][3] = { "・","■","〇","△","☆","◎" };
 
 int puyoX = START_X;	//ぷよの座標x
@@ -40,11 +34,30 @@ int puyoY = START_Y;	//ぷよの座標y
 int puyoType;		//軸ぷよの種類
 int subpuyoType;	//サブぷよの種類
 int puyoRot;		//ぷよの回転
+int chainPuyo = 0;	//消したぷよの数
+int Maxchain = 0;
 int rotnum = 16000;	//回転時に用いる適当な大きな値
+int end_key;
 
-bool user_stop = false;	//操作制限
+bool user_stop = false;	//操作制限フラグ
 
 int main(){
+
+	//現在のディレクトリ取得
+	char currentDirectory[CHARBUFF];
+	getCurrentDirectory(currentDirectory);
+
+	//iniファイルのパラメータ取得に用いる文字列配列
+	char info[CHARBUFF];
+	char info2[CHARBUFF];
+	char settingFile[CHARBUFF];
+
+	//iniファイルのパラメータ取得
+	sprintf_s(settingFile, "%s\\Text.ini", currentDirectory);
+	readChar("puyopuyo", "keyword1", "none", info, settingFile);
+	Text.version = info;
+	readChar("puyopuyo", "keyword2", "none", info2, settingFile);
+	Text.operation = info2;
 
 	//乱数初期化
 	srand((unsigned int)time(NULL));
@@ -67,13 +80,20 @@ int main(){
 	time_t t = 0;	//時間を扱う変数
 
 	while (1) {
-
+	
 		//tが現時刻より小さい場合、画面の再描画
 		if (t < time(NULL)) {
 			t = time(NULL);	//タイム更新（1秒ごとに更新）
 
 			//操作制限されていない場合
 			if (!user_stop) {
+
+				//最大チェイン数更新
+				if (chainPuyo > Maxchain) {
+					Maxchain = chainPuyo;
+				}
+
+				chainPuyo = 0;	//チェイン数初期化
 
 				//地面までぷよ落下
 				if (!ObjectJudge(puyoX, puyoY + 1, puyoRot)) {
@@ -122,19 +142,18 @@ int main(){
 							if (field[y][x] != NONE) {
 								if (PuyoCount(x, y, field[y][x], 0) >= 4) {
 									PuyoErase(x, y, field[y][x]);
+									chainPuyo++;
 									user_stop = true;
 								}
 							}
 						}
 					}
 				}
+				
 			}
-
+			
 			Display();	//画面再描画
 		}
-
-		//終了キー
-		int end_key = 0;
 
 		//キー入力
 		if (_kbhit()) {
@@ -173,6 +192,8 @@ int main(){
 			}
 		}
 
+		
+
 		//無限ループ終了
 		if (end_key == 1) {
 			break;
@@ -182,4 +203,3 @@ int main(){
 	return 0;
 
 }
-
