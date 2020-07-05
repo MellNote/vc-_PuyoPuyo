@@ -35,9 +35,9 @@ int puyoType;		//軸ぷよの種類
 int subpuyoType;	//サブぷよの種類
 int puyoRot;		//ぷよの回転
 int chainPuyo = 0;	//消したぷよの数
-int Maxchain = 0;
+int maxchain = 0;	//最大チェイン数
 int rotnum = 16000;	//回転時に用いる適当な大きな値
-int end_key;
+int end_key;	//終了フラグ
 
 bool user_stop = false;	//操作制限フラグ
 
@@ -50,6 +50,7 @@ int main(){
 	//iniファイルのパラメータ取得に用いる文字列配列
 	char info[CHARBUFF];
 	char info2[CHARBUFF];
+	char info3[CHARBUFF];
 	char settingFile[CHARBUFF];
 
 	//iniファイルのパラメータ取得
@@ -58,6 +59,8 @@ int main(){
 	Text.version = info;
 	readChar("puyopuyo", "keyword2", "none", info2, settingFile);
 	Text.operation = info2;
+	readChar("filename", "keyword3", "none", info3, settingFile);
+	Text.filename = info3;
 
 	//乱数初期化
 	srand((unsigned int)time(NULL));
@@ -89,8 +92,8 @@ int main(){
 			if (!user_stop) {
 
 				//最大チェイン数更新
-				if (chainPuyo > Maxchain) {
-					Maxchain = chainPuyo;
+				if (chainPuyo > maxchain) {
+					maxchain = chainPuyo;
 				}
 
 				chainPuyo = 0;	//チェイン数初期化
@@ -142,7 +145,7 @@ int main(){
 							if (field[y][x] != NONE) {
 								if (PuyoCount(x, y, field[y][x], 0) >= 4) {
 									PuyoErase(x, y, field[y][x]);
-									chainPuyo++;
+									chainPuyo++;	//チェイン数カウント
 									user_stop = true;
 								}
 							}
@@ -196,6 +199,7 @@ int main(){
 
 		//無限ループ終了
 		if (end_key == 1) {
+			FileOutput(Text.filename, maxchain);	//ファイル出力
 			break;
 		}
 	}

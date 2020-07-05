@@ -32,6 +32,7 @@ extern int end_key;
 extern struct text {
 	char* version;
 	char* operation;
+	char* filename;
 };
 
 extern text Text;
@@ -46,6 +47,6 @@ extern int subpuyoType;	//サブぷよの種類
 extern int puyoRot;		//ぷよの回転
 extern int rotnum;	//回転時に用いる適当な大きな値
 extern int chainPuyo;	//消したぷよの数
-extern int Maxchain;
+extern int maxchain;
 
 extern bool user_stop;	//操作制限

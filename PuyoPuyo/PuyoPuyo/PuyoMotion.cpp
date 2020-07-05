@@ -1,7 +1,6 @@
 ﻿#include "stdafx.h"
 #include "PuyoMotion.h"
 #include "Display.h"
-//#include "Setting.h"
 #include "PuyoVar.h"
 
 //オブジェクト判定関数

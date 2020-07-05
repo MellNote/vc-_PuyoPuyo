@@ -1,11 +1,8 @@
 #include "stdafx.h"
 #include "Setting.h"
-//#include <Windows.h>
 
 
 int readInt(const char *section, const char *keyword, int defaultValue, const char *filePath) {
-	//maximun 255
-	//return GetPrivateProfileInt(section, keyword, defaultValue, filePath);
 	char valueString[CHARBUFF];
 	if (readChar(section, keyword, "", valueString, filePath)) {
 		return atof(valueString);
@@ -54,3 +51,22 @@ bool writeDouble(const char *section, const char *keyword, double returnValue, c
 	sprintf_s(valueChar, "%lf", returnValue);
 	return writeChar(section, keyword, valueChar, filePath);
 }
+
+//最大チェイン数を出力する関数
+void FileOutput(const char* fileName, int maxchain) {
+	FILE* fp;
+	errno_t error;
+	double sum = 0;
+
+	error = fopen_s(&fp, fileName, "w");
+
+	if (error != 0) {
+		fprintf_s(stderr, "failed to open");
+	}
+	else {
+		fprintf(fp, "最大チェイン数：%d", maxchain);
+		}
+	fclose(fp);
+	}
+	
+

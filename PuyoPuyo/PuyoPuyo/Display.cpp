@@ -53,7 +53,7 @@ void Display() {
 	printf("\n");
 	printf("%s%d\n", "現在チェイン数：",chainPuyo);
 	printf("\n");
-	printf("%s%d\n", "最大チェイン数：", Maxchain);
+	printf("%s%d\n", "最大チェイン数：", maxchain);
 
 	//操作方法描画
 	printf("\n");
