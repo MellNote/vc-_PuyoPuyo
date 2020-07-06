@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Setting.h"
 
-
+//ファイル読み込み（int）
 int readInt(const char *section, const char *keyword, int defaultValue, const char *filePath) {
 	char valueString[CHARBUFF];
 	if (readChar(section, keyword, "", valueString, filePath)) {
@@ -12,6 +12,7 @@ int readInt(const char *section, const char *keyword, int defaultValue, const ch
 	}
 }
 
+//ファイル読み込み（double）
 double readDouble(const char *section, const char *keyword, double defaultValue, const char *filePath) {
 	char valueString[CHARBUFF];
 	char *endptr;
@@ -23,6 +24,7 @@ double readDouble(const char *section, const char *keyword, double defaultValue,
 	}
 }
 
+//ファイル読み込み（char）
 bool  readChar(const char *section, const char *keyword, const char *defaultValue, char *returnValue, const char *filePath) {
 	if (GetPrivateProfileString(section, keyword, defaultValue, returnValue, CHARBUFF, filePath) != 0) {
 		return true;
@@ -32,20 +34,24 @@ bool  readChar(const char *section, const char *keyword, const char *defaultValu
 	}
 }
 
+//現在のディレクトリ取得
 void getCurrentDirectory(char *currentDirectory) {
 	GetCurrentDirectory(CHARBUFF, currentDirectory);
 }
 
-
+//ファイル書き込み（char）
 bool writeChar(const char *section, const char *keyword, const char *returnValue, const char *filePath) {
 	return WritePrivateProfileString(section, keyword, returnValue, filePath);
 }
 
+//ファイル書き込み（int）
 bool writeInt(const char *section, const char *keyword, int returnValue, const char *filePath) {
 	char valueChar[CHARBUFF];
 	sprintf_s(valueChar, "%d", returnValue);
 	return writeChar(section, keyword, valueChar, filePath);
 }
+
+//ファイル書き込み（double）
 bool writeDouble(const char *section, const char *keyword, double returnValue, const char *filePath) {
 	char valueChar[CHARBUFF];
 	sprintf_s(valueChar, "%lf", returnValue);

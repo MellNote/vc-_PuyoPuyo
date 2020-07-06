@@ -36,20 +36,23 @@ void Display() {
 		printf("\n");
 	}
 
+	//最上部にあるぷよの数のカウント
 	int cnt = 0;
-	
 	for (int x = 0; x < FIELD_W; x++) {
 		if (field[1][x] != NONE) {
 			cnt++;
 		}
 	}
 	
+	//最上部にぷよが到達すると終了フラグを１へ変更（終了する）
 	if (cnt >=3) {
 		end_key = 1;
 	}
 	else {
 		cnt = 0;
 	}
+
+	//現在チェイン数、最大チェイン数の描画
 	printf("\n");
 	printf("%s%d\n", "現在チェイン数：",chainPuyo);
 	printf("\n");

@@ -105,6 +105,7 @@ int main(){
 
 				else {
 
+					//サブぷよの座標更新
 					int subpuyoX = puyoX + puyoPosition[puyoRot][0];
 					int subpuyoY = puyoY + puyoPosition[puyoRot][1];
 
